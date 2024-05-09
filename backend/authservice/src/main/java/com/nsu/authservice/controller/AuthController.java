@@ -6,39 +6,58 @@ import com.nsu.authservice.repository.UserRepository;
 import com.nsu.authservice.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
-@RequestMapping("/api")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        System.out.println("AAAAAAAAAAAAAAAA");
+        System.out.println("BBBBBBBBBBB");
+        System.out.println("AAAAAAAAAAAAAAAA");
+        System.out.println("AAAAAAAAAAAAAAAA");
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email already in use");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
+
+        System.out.println(user.getFirstName() + " " + user.getEmail() + " " + user.getLastName() + " " + user.getPhoneNumber() + " ");
+        System.out.println("AAAAAAAAAAAAAAAAAa");
         userRepository.save(user);
+        System.out.println("User saved");
         return ResponseEntity.ok("User registered successfully");
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User login) {
-        User user = userRepository.findByEmail(login.getEmail());
-        if (user != null && passwordEncoder.matches(login.getPassword(), user.getPassword())) {
-            final String jwt = jwtUtil.generateToken(user.getEmail());
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, user));
+        System.out.println("AAAAAAAAAAAAAAAA");
+        System.out.println("CCCCCCCCCCCCCCCCC");
+        System.out.println("AAAAAAAAAAAAAAAA");
+        System.out.println("AAAAAAAAAAAAAAAA");
+
+        var optionalUser = userRepository.findByEmail(login.getEmail());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+                final String jwt = jwtUtil.generateToken(user.getEmail());
+                return ResponseEntity.ok(new AuthenticationResponse(jwt, user));
+            }
         }
         return ResponseEntity.badRequest().body("Invalid email or password");
     }

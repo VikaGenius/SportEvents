@@ -15,6 +15,11 @@
         </div>
 
         <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" class="form-control" v-model="phone_number" placeholder="Phone Number"/>
+        </div>
+
+        <div class="form-group">
             <label>Email</label>
             <input type="email" class="form-control" v-model="email" placeholder="Email"/>
         </div>
@@ -48,6 +53,7 @@
             return {
                 first_name: '',
                 last_name: '',
+                phone_number: '',
                 email: '',
                 password: '',
                 password_confirm: '',
@@ -58,11 +64,11 @@
             async handleSubmit() {
                 try {
                     const data = {
-                        first_name: this.first_name,
-                        last_name: this.last_name,
+                        firstName: this.first_name,
+                        lastName: this.last_name,
+                        phoneNumber: this.phone_number,
                         email: this.email,
                         password: this.password,
-                        password_confirm: this.password_confirm
                     };
                     
                     const response = await axios.post('register', data);
