@@ -23,7 +23,7 @@
 
 <script>
     import axios from 'axios';
-    import ErrorMessage from './ErrorMessage.vue';
+    import ErrorMessage from '../ErrorMessage.vue';
 
     export default {
         name: 'ForgotPassword',

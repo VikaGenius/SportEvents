@@ -2,8 +2,8 @@
     <div id="app">
         <NavBar :user="user" />
 
-        <div class="auth-wrapper">
-            <div class="auth-inner">
+        <div class="wrapper">
+            <div class="inner">
                 <router-view />
             </div>
         </div>
@@ -12,7 +12,7 @@
 
 <script>
     import NavBar from './components/NavBar.vue'
-    import axios from 'axios';
+    //import axios from 'axios';
 
     export default {
         
@@ -21,8 +21,12 @@
             NavBar
         },
         async created() {
-            const response = await axios.get('user');
-            this.$store.dispatch('user', response.data);
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                this.$store.dispatch('user', user);
+            }
+            // const response = await axios.get('user');
+            // this.$store.dispatch('user', response.data);
         }
     }
     
@@ -58,14 +62,15 @@
         box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
     }
 
-    .auth-wrapper {
+    .wrapper {
         display: flex;
         justify-content: center;
         flex-direction: column;
         text-align: left;
+        margin-top: 50px;
     }
 
-    .auth-inner {
+    .inner {
         width: 450px;
         margin: auto;
         background: #ffffff;
@@ -75,12 +80,12 @@
         transition: all .3s;
     }
 
-    .auth-wrapper .form-control:focus {
+    .wrapper .form-control:focus {
         border-color: #167bff;
         box-shadow: none;
     }
 
-    .auth-wrapper h3 {
+    .wrapper h3 {
         text-align: center;
         margin: 0;
         line-height: 1;

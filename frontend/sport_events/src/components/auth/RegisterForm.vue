@@ -6,17 +6,17 @@
 
         <div class="form-group">
             <label>First Name</label>
-            <input type="text" class="form-control" v-model="first_name" placeholder="First Name"/>
+            <input type="text" class="form-control" v-model="firstName" placeholder="First Name"/>
         </div>
 
         <div class="form-group">
             <label>Last Name</label>
-            <input type="text" class="form-control" v-model="last_name" placeholder="Last Name"/>
+            <input type="text" class="form-control" v-model="lastName" placeholder="Last Name"/>
         </div>
 
         <div class="form-group">
             <label>Phone Number</label>
-            <input type="text" class="form-control" v-model="phone_number" placeholder="Phone Number"/>
+            <input type="text" class="form-control" v-model="phoneNumber" placeholder="Phone Number"/>
         </div>
 
         <div class="form-group">
@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" class="form-control" v-model="password_confirm" placeholder="Confirm Password"/>
+            <input type="password" class="form-control" v-model="passwordConfirm" placeholder="Confirm Password"/>
         </div>
 
         <div class="d-grid gap-2">
@@ -43,7 +43,7 @@
 
 <script>
     import axios from 'axios';
-    import ErrorMessage from './ErrorMessage.vue'
+    import ErrorMessage from '../ErrorMessage.vue'
     export default {
         name: 'RegisterForm',
         components: {
@@ -51,12 +51,12 @@
         },
         data() {
             return {
-                first_name: '',
-                last_name: '',
-                phone_number: '',
+                firstName: '',
+                lastName: '',
+                phoneNumber: '',
                 email: '',
                 password: '',
-                password_confirm: '',
+                passwordConfirm: '',
                 error: ''
             }
         },
@@ -64,9 +64,9 @@
             async handleSubmit() {
                 try {
                     const data = {
-                        firstName: this.first_name,
-                        lastName: this.last_name,
-                        phoneNumber: this.phone_number,
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        phoneNumber: this.phoneNumber,
                         email: this.email,
                         password: this.password,
                     };

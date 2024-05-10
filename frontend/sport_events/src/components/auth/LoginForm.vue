@@ -28,7 +28,7 @@
 
 <script>
     import axios from 'axios';
-    import ErrorMessage from './ErrorMessage.vue'
+    import ErrorMessage from '../ErrorMessage.vue'
     export default {
         name: 'LoginForm',
         components: {
@@ -38,7 +38,10 @@
             return {
                 email: '',
                 password: '',
-                error: ''
+                error: '',
+                firstName: '',
+                lastName: '',
+                role: ''
             }
         },
         methods: {
@@ -50,6 +53,7 @@
                     });
 
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
                     this.$store.dispatch('user', response.data.user);
                     this.$router.push('/');
                 } catch (e) {

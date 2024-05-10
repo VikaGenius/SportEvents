@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeSpace from './components/HomeSpace.vue'
-import LoginForm from './components/LoginForm.vue'
-import RegisterForm from './components/RegisterForm.vue'
-import ForgotPassword from './components/ForgotPassword'
-import ResetPassword from './components/ResetPassword'
+import LoginForm from './components/auth/LoginForm.vue'
+import RegisterForm from './components/auth/RegisterForm.vue'
+import ForgotPassword from './components/auth/ForgotPassword.vue'
+import ResetPassword from './components/auth/ResetPassword.vue'
+import Playgrounds from './components/playgrounds/PlaygroundsList.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,7 +13,8 @@ const router = createRouter({
         { path: '/login', component: LoginForm },
         { path: '/register', component: RegisterForm },
         { path: '/forgot', component: ForgotPassword },
-        { path: '/reset/:token', component: ResetPassword }
+        { path: '/reset/:token', component: ResetPassword },
+        { path: '/playgrounds', component: Playgrounds }
 
     ]
 })
