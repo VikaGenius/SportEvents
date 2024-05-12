@@ -1,17 +1,21 @@
 package com.nsu.sport_events.events_service.model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import com.nsu.sport_events.coach_service.model.Coach;
 import com.nsu.sport_events.playground_service.model.Playground;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Events")
 public class Event {
     @Id
@@ -30,12 +34,15 @@ public class Event {
     @Column(nullable = false, name = "remaining_seats")
     private Integer remainingSeats;
 
+    @Column(nullable = false, name = "max_sets")
+    private Integer maxSets;
+
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "p_id")
     private Playground playground;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "c_id")
     private Coach coach;
 
     @Column(nullable = false)

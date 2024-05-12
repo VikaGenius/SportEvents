@@ -18,6 +18,9 @@
                         <li class="nav-item">
                             <router-link to="playgrounds" class="nav-link">Playgrounds</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link to="coaches" class="nav-link">Coaches</router-link>
+                        </li>
                     </ul>
 
                 </div>
@@ -33,6 +36,7 @@
             handleClick() {
                 localStorage.removeItem('token');
                 this.$store.dispatch('user', null);
+                localStorage.removeItem('user');
                 this.$router.push('/');
             }
         },

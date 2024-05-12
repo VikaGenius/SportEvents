@@ -11,13 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface CoachRepository extends JpaRepository<Coach, Long> {
-    @SuppressWarnings("null")
     Optional<Coach> findById(Long id);
 
-    @SuppressWarnings("null")
     void deleteById(Long id);
-
-    @SuppressWarnings("null")
+    
     List<Coach> findAll();
 }
 

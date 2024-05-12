@@ -5,6 +5,7 @@ import RegisterForm from './components/auth/RegisterForm.vue'
 import ForgotPassword from './components/auth/ForgotPassword.vue'
 import ResetPassword from './components/auth/ResetPassword.vue'
 import Playgrounds from './components/playgrounds/PlaygroundsList.vue'
+import Coaches from './components/coaches/CoachesList.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,7 +15,8 @@ const router = createRouter({
         { path: '/register', component: RegisterForm },
         { path: '/forgot', component: ForgotPassword },
         { path: '/reset/:token', component: ResetPassword },
-        { path: '/playgrounds', component: Playgrounds }
+        { path: '/playgrounds', component: Playgrounds },
+        { path: '/coaches', component: Coaches }
 
     ]
 })

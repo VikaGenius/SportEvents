@@ -9,7 +9,8 @@ import jakarta.persistence.*;
 public class Playground {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "p_id")
+    private Long pId;
 
     @Column(nullable = false)
     private String name;
@@ -21,11 +22,11 @@ public class Playground {
     private String numberOfSeats;
 
     public Long getId() {
-        return id;
+        return pId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.pId = id;
     }
 
     public String getName() {

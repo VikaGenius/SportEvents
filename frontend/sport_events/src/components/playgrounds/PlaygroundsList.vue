@@ -4,7 +4,7 @@
 
         <ol class="list-group list-group-numbered">
             <li class="list-group-item d-flex justify-content-between align-items-start"
-                v-for="playground in playgrounds" :key="playground.id" >
+                v-for="playground in playgrounds" :key="playground.pId" >
 
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">{{ playground.name }}</div>
@@ -12,13 +12,13 @@
                 </div>
 
                 <div class="mt-2">
-                    <button v-if="user && user.role==='USER'" 
+                    <button v-if="user && user.role==='ADMIN'" 
                         class="btn btn-sm btn-primary" 
                         @click="openEditModal(playground)"
                     >Edit</button>
-                    <button v-if="user && user.role==='USER'" 
+                    <button v-if="user && user.role==='ADMIN'" 
                         class="btn btn-sm btn-danger me-2" 
-                        @click="deletePlayground(playground.id)"
+                        @click="deletePlayground(playground.pId)"
                     >Delete</button>
                 </div>
 
@@ -37,7 +37,7 @@
         </ol>
 
         <div class="d-grid gap-2">
-            <button v-if="user && user.role==='USER'" 
+            <button v-if="user && user.role==='ADMIN'" 
                 class="btn btn-primary btn-block" 
                 type="submit"
                 @click="handleClick"

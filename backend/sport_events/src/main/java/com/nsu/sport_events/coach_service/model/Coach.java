@@ -7,18 +7,19 @@ import jakarta.persistence.*;
 public class Coach {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "c_id")
+    private Long cId;
 
     @Column(nullable = false, name = "full_name")
     private String fullName;
     
 
     public Long getId() {
-        return id;
+        return cId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.cId = id;
     }
 
     public String getFullName() {
