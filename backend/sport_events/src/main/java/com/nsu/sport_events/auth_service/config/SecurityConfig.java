@@ -36,6 +36,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/login").permitAll()
                 .requestMatchers("/register").permitAll()
+                .requestMatchers("/playgrounds").permitAll()
+                .requestMatchers("/playgrounds/**").permitAll()
+                .requestMatchers("/coaches").permitAll()
+                .requestMatchers("/coaches/**").permitAll()
             )
             .authenticationProvider(authenticationProvider())
             .build();
