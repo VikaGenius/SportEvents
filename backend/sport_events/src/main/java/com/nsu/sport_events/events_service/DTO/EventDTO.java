@@ -12,12 +12,12 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDTO {
-    private Long id;
+    private Long eId;
     private String name;
     private Timestamp startTime;
     private String duration;
     private Integer remainingSeats;
-    private Integer maxSets;
+    private Integer maxSeats;
     private Long playground;
     private Long coach;
     private Integer cost;

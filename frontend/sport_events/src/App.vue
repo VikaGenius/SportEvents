@@ -38,7 +38,9 @@
     }
 
     body {
-        background: #1C8EF9 !important;
+        /* background: #1C8EF9 !important; */
+        background-image: url('./assets/фон3.png');
+        
         min-height: 100vh;
         display: flex;
         font-weight: 400;
@@ -68,10 +70,11 @@
         flex-direction: column;
         text-align: left;
         margin-top: 50px;
+        /* background-image: url('./assets/фон.png'); */
     }
 
     .inner {
-        width: 450px;
+        width: 600px;
         margin: auto;
         background: #ffffff;
         box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

@@ -11,10 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+    @SuppressWarnings("null")
     Optional<Event> findById(Long id);
 
+    @SuppressWarnings("null")
     void deleteById(Long id);
     
+    @SuppressWarnings("null")
     List<Event> findAll();
 
 

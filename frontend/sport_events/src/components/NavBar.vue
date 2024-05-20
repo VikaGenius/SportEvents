@@ -22,6 +22,12 @@
                             <router-link to="coaches" class="nav-link">Coaches</router-link>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ml-auto" v-if="user && user.role==='ADMIN'">
+                        <li class="nav-item">
+                            <router-link to="applications" class="nav-link">Applications to events</router-link>
+                        </li>
+                    </ul>
+
 
                 </div>
             </div>
@@ -45,4 +51,5 @@
         }
     }
 </script>
+
 

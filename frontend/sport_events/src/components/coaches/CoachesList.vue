@@ -2,6 +2,14 @@
     <div>
         <h3>Список тренеров</h3>
 
+        <div class="d-grid gap-2">
+            <button v-if="user && user.role==='ADMIN'" 
+                class="btn btn-primary btn-block" 
+                type="submit"
+                @click="handleClick"
+            >Add coach</button>
+        </div>
+
         <ol class="list-group list-group-numbered">
             <li class="list-group-item d-flex justify-content-between align-items-start"
                 v-for="coach in coaches" :key="coach.cId" >
@@ -13,19 +21,11 @@
                 <div class="mt-2">
                     <button v-if="user && user.role==='ADMIN'" 
                         class="btn btn-sm btn-danger me-2" 
-                        @click="deleteCoach(coach.cId)"
+                        @click="deleteCoach(coach.id)"
                     >Delete</button>
                 </div>
             </li>
         </ol>
-
-        <div class="d-grid gap-2">
-            <button v-if="user && user.role==='ADMIN'" 
-                class="btn btn-primary btn-block" 
-                type="submit"
-                @click="handleClick"
-            >Add coach</button>
-        </div>
 
         <AddCoachModal 
             :show-modal="showModal" 

@@ -33,15 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/login").permitAll()
-                .requestMatchers("/register").permitAll()
-                .requestMatchers("/playgrounds**").permitAll()
-                .requestMatchers("/coaches**").permitAll()
-                .requestMatchers("/events**").permitAll()
-                // .anyRequest()
-                // .authenticated()
-            )
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             .authenticationProvider(authenticationProvider())
             .build();
     }

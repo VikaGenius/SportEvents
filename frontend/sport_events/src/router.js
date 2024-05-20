@@ -4,8 +4,11 @@ import LoginForm from './components/auth/LoginForm.vue'
 import RegisterForm from './components/auth/RegisterForm.vue'
 import ForgotPassword from './components/auth/ForgotPassword.vue'
 import ResetPassword from './components/auth/ResetPassword.vue'
-import Playgrounds from './components/playgrounds/PlaygroundsList.vue'
-import Coaches from './components/coaches/CoachesList.vue'
+import PlaygroundsList from './components/playgrounds/PlaygroundsList.vue'
+import CoachesList from './components/coaches/CoachesList.vue'
+import EventsList from './components/events/EventList.vue'
+import ApplicationsList from './components/applications/ApplicationsList.vue'
+import EventDetails from './components/events/EventDetails.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,8 +18,11 @@ const router = createRouter({
         { path: '/register', component: RegisterForm },
         { path: '/forgot', component: ForgotPassword },
         { path: '/reset/:token', component: ResetPassword },
-        { path: '/playgrounds', component: Playgrounds },
-        { path: '/coaches', component: Coaches }
+        { path: '/playgrounds', component: PlaygroundsList },
+        { path: '/coaches', component: CoachesList },
+        { path: '/events', component: EventsList },
+        { path: '/applications', component: ApplicationsList},
+        { path: '/events/:id', component: EventDetails }
 
     ]
 })

@@ -2,6 +2,14 @@
     <div>
         <h3>Список игровых площадок</h3>
 
+        <div class="d-grid gap-2">
+            <button v-if="user && user.role==='ADMIN'" 
+                class="btn btn-primary btn-block" 
+                type="submit"
+                @click="handleClick"
+            >Add playground</button>
+        </div>
+
         <ol class="list-group list-group-numbered">
             <li class="list-group-item d-flex justify-content-between align-items-start"
                 v-for="playground in playgrounds" :key="playground.pId" >
@@ -18,7 +26,7 @@
                     >Edit</button>
                     <button v-if="user && user.role==='ADMIN'" 
                         class="btn btn-sm btn-danger me-2" 
-                        @click="deletePlayground(playground.pId)"
+                        @click="deletePlayground(playground.id)"
                     >Delete</button>
                 </div>
 
@@ -30,19 +38,11 @@
                 />
 
                 <span class="badge bg-primary rounded-pill">
-                    {{ playground.numberOfSeats }}
+                    {{ playground.numberOfSeats }} seats
                 </span>
                 
             </li>
         </ol>
-
-        <div class="d-grid gap-2">
-            <button v-if="user && user.role==='ADMIN'" 
-                class="btn btn-primary btn-block" 
-                type="submit"
-                @click="handleClick"
-            >Add playground</button>
-        </div>
 
         <AddEditPlaygroundModal 
             :show-modal="showModal" 
@@ -111,13 +111,7 @@
                 this.closeModal();
             },
 
-            editPlayground(id) {
-                // Реализуйте функциональность редактирования площадки
-                console.log('Edit playground:', id);
-            },
-
             async deletePlayground(id) {
-                // Реализуйте функциональность удаления площадки
                 try {
                     await axios.delete(`playgrounds/${id}`);
                     this.fetchPlaygrounds();

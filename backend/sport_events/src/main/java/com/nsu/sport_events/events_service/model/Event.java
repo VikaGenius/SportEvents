@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "e_id")
+    private Long eId;
 
     @Column(nullable = false)
     private String name;

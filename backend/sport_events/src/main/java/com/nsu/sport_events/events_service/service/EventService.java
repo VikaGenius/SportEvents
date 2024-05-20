@@ -24,10 +24,10 @@ public class EventService {
     public void addEvent(EventDTO eventDTO) {
         Event event = new Event();
 
-        event.setId(eventDTO.getId());
+        event.setEId(eventDTO.getEId());
         event.setName(eventDTO.getName());
         event.setRemainingSeats(eventDTO.getRemainingSeats());
-        event.setMaxSets(eventDTO.getMaxSets());
+        event.setMaxSets(eventDTO.getMaxSeats());
         event.setCoach(coachRepository.findById(eventDTO.getCoach()).get());
         event.setDuration(eventDTO.getDuration());
         event.setCost(eventDTO.getCost());
@@ -54,10 +54,10 @@ public class EventService {
 
         if (event == null) return;
 
-        event.setId(eventDTO.getId());
+        event.setEId(eventDTO.getEId());
         event.setName(eventDTO.getName());
         event.setRemainingSeats(eventDTO.getRemainingSeats());
-        event.setMaxSets(eventDTO.getMaxSets());
+        event.setMaxSets(eventDTO.getMaxSeats());
         event.setCoach(coachRepository.findById(eventDTO.getCoach()).get());
         event.setDuration(eventDTO.getDuration());
         event.setCost(eventDTO.getCost());

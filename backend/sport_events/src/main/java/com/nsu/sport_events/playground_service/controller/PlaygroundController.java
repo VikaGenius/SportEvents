@@ -30,19 +30,19 @@ public class PlaygroundController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Playground> getPlayground(@PathVariable("p_id") Long id) {
+    public ResponseEntity<Playground> getPlayground(@PathVariable("id") Long id) {
         Playground playground = playgroundService.getPlaygroundById(id);
         return new ResponseEntity<>(playground, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePlayground(@PathVariable("p_id") Long id, @RequestBody Playground updatedPlayground) {
+    public ResponseEntity<Void> updatePlayground(@PathVariable("id") Long id, @RequestBody Playground updatedPlayground) {
         playgroundService.updatePlayground(id, updatedPlayground);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlayground(@PathVariable("p_id") Long id) {
+    public ResponseEntity<Void> deletePlayground(@PathVariable("id") Long id) {
         playgroundService.deletePlayground(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
