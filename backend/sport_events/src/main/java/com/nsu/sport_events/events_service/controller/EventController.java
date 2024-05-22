@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.nsu.sport_events.events_service.DTO.EventDTO;
 import com.nsu.sport_events.events_service.model.Event;
 import com.nsu.sport_events.events_service.service.EventService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/events")
@@ -27,10 +31,22 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    // @GetMapping
+    // public ResponseEntity<List<Event>> getAllEvents() {
+    //     List<Event> events = eventService.getAllEvents();
+    //     return new ResponseEntity<>(events, HttpStatus.OK);
+    // }
+
+    // @GetMapping
+    // public ResponseEntity<List<Event>> getAllEvents(@RequestParam Map<String, String> filters) {
+    //     List<Event> events = eventService.getAllEvents(filters);
+    //     return ResponseEntity.ok(events);
+    // }
+
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventService.getAllEvents();
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    public ResponseEntity<Page<Event>> getAllEvents(@RequestParam Map<String, String> filters, Pageable pageable) {
+        Page<Event> events = eventService.getAllEvents(filters, pageable);
+        return ResponseEntity.ok(events);
     }
 
     @PostMapping

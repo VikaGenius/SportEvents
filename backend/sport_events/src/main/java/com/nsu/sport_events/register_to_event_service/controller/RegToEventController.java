@@ -27,6 +27,12 @@ public class RegToEventController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/admin")
+    public ResponseEntity<Void> registerToEventByAdmin(@RequestBody RegistrationToEventDTO registrationDTO) {
+        registrationService.registerOnEvent(registrationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     // пользователи, зареганные на мероприятие
     @GetMapping("/event/{eventId}/users")
     public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId) {

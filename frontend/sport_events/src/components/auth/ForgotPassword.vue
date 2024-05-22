@@ -40,10 +40,8 @@
         methods: {
             async handleSubmit() {
                 try {
-                    await axios.post('forgot', {
-                        email: this.email
-                    });
-
+                    console.log(this.email)
+                    await axios.post('forgot', { email: this.email });
                     this.message = 'The email was sent!';
                     this.error = '';
                 } catch(e) {

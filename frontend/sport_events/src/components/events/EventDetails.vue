@@ -12,7 +12,7 @@
         <p>Max count of seats: {{ event.maxSets }}</p>
 
         <div v-if="user && user.role==='ADMIN'">
-            <h3>Зарегистрированные пользователи:</h3>
+            <h4>Зарегистрированные пользователи:</h4>
             <ul v-if="users.length">
                 <li v-for="user in users" :key="user.id">
                     {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
@@ -20,7 +20,16 @@
                 </li>
             </ul>
             <p v-else>На мероприятие еще никто не зарегистрирован.</p>
+
+            <h4>Зарегистрировать нового пользователя:</h4>
+            <select v-model="selectedUserId" class="select">
+                <option v-for="availableUser in availableUsers" :value="availableUser.id" :key="availableUser.id">
+                    {{ availableUser.firstName }} {{ availableUser.lastName }}
+                </option>
+            </select>
+            <button @click="registerUserToEvent" class="btn btn-primary">Зарегистрировать</button>
         </div>
+
         
 
     </div>
@@ -35,11 +44,14 @@
             return {
                 event: null,
                 users: [],
+                availableUsers: [],  
+                selectedUserId: null  
             };
         },
         mounted() {
             this.fetchEventDetails();
             this.fetchEventUsers();
+            this.fetchAllUsers();
         },
         computed: {
             ...mapGetters(['user'])
@@ -81,7 +93,35 @@
                     console.error('Ошибка при удалении регистрации:', error);
                 }
             },
+            async fetchAllUsers() {
+                try {
+                    const response = await axios.get(`/users`);
+                    this.availableUsers = response.data;
+                } catch (error) {
+                    console.error('Ошибка при загрузке списка всех пользователей:', error);
+                }
+            },
+            async registerUserToEvent() {
+                if (!this.selectedUserId) return;
+                const registrationData = {
+                    user: this.selectedUserId,
+                    event: this.$route.params.id
+                };
+                try {
+                    await axios.post(`/registrations/admin`, registrationData);
+                    this.fetchEventUsers();  // Обновить список зарегистрированных пользователей
+                } catch (error) {
+                    console.error('Ошибка при регистрации пользователя на мероприятие:', error);
+                }
+            }
         }
     };
 </script>
+
+<style>
+    .select {
+        margin-right: 10px; 
+    }
+</style>
+
   

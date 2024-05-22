@@ -27,20 +27,30 @@
         data() {
             return {
                 password: '',
-                password_confirm: ''
+                password_confirm: '',
+                token: this.$route.params.token,
             }
         },
         methods: {
             async handleSubmit() {
-                const response = await axios.post('reset', {
-                    password: this.password,
-                    password_confirm: this.password_confirm,
-                    token: this.$route.params.token
-                })
+                if (this.password !== this.password_confirm) {
+                    this.error = "Passwords do not match!";
+                    return;
+                }
 
-                console.log(response);
-                this.$router.push('/login')
+                try {
+                    const response = await axios.post('reset', {
+                        newPassword: this.password,
+                        token: this.token
+                    });
+
+                    console.log(response);
+                    this.$router.push('/login');
+                } catch (e) {
+                    this.error = e.response.data || 'Error occurred!';
+                }
             }
+
         }
     }
 </script>

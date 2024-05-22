@@ -61,7 +61,22 @@
             }
         },
         methods: {
+            validatePassword() {
+                if (this.password.length < 3) {
+                    this.error = 'Password must be at least 3 characters long.';
+                    return false;
+                }
+                if (this.password !== this.passwordConfirm) {
+                    this.error = 'Passwords do not match.';
+                    return false;
+                }
+                return true;
+            },
             async handleSubmit() {
+                if (!this.validatePassword()) {
+                    return; 
+                }
+                
                 try {
                     const data = {
                         firstName: this.firstName,

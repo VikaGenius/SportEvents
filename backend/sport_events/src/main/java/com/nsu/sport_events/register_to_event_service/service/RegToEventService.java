@@ -61,9 +61,6 @@ public class RegToEventService {
         String text = "Доброго времени суток! Ваша заявка на мероприятие " + event.getName() + " передана на рассмотрение администраторам";
 
         emailService.sendSimpleMessage(to, subject, text);
-
-        //TODO: добавить функционал с отправлением сообщения на почту о том, 
-        //что заявка на мероприятие отправлена
     }
 
     public void recordConfirmation(Long id) {
@@ -95,6 +92,27 @@ public class RegToEventService {
             String text = "Доброго времени суток! Вы зарегистрированы на мероприятие " + event.getName() + " :)";
             emailService.sendSimpleMessage(to, subject, text);
         }
+    }
+
+    public void registerOnEvent(RegistrationToEventDTO dto) {
+        RegistrationToEvent record = new RegistrationToEvent();
+
+        User user = userRepository.findById(dto.getUser()).get();
+        Event event = eventRepository.findById(dto.getEvent()).get();
+
+        record.setUser(user);
+        record.setEvent(event);
+        record.setConfirmed(true);
+        event.setRemainingSeats(event.getRemainingSeats() - 1);
+
+        registrationRepository.save(record);
+        eventRepository.save(event);
+        
+        String to = user.getEmail();
+        String subject = "Успешная регистрация";
+        String text = "Доброго времени суток! Вы зарегистрированы на мероприятие " + event.getName() + " :)";
+
+        emailService.sendSimpleMessage(to, subject, text);
     }
 
     public void deleteApplication(Long id) {

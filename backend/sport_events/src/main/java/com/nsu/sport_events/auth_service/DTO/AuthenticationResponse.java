@@ -1,4 +1,6 @@
-package com.nsu.sport_events.auth_service.model;
+package com.nsu.sport_events.auth_service.DTO;
+
+import com.nsu.sport_events.auth_service.model.User;
 
 public class AuthenticationResponse {
     private final String jwt;

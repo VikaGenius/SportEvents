@@ -9,6 +9,7 @@ import CoachesList from './components/coaches/CoachesList.vue'
 import EventsList from './components/events/EventList.vue'
 import ApplicationsList from './components/applications/ApplicationsList.vue'
 import EventDetails from './components/events/EventDetails.vue';
+import QueryWindow from './components/queries/QueryWindow.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -22,8 +23,8 @@ const router = createRouter({
         { path: '/coaches', component: CoachesList },
         { path: '/events', component: EventsList },
         { path: '/applications', component: ApplicationsList},
-        { path: '/events/:id', component: EventDetails }
-
+        { path: '/events/:id', component: EventDetails },
+        { path: '/queries', component: QueryWindow }
     ]
 })
 

@@ -1,9 +1,17 @@
 <template>
     <h3>List of events</h3>
 
+    <div class="filters">
+        <input type="text" class="form-control" v-model="filters.name" placeholder="Filter by name">
+        <input type="date" class="form-control" v-model="filters.date" placeholder="Filter by date">
+        <!-- Другие фильтры по необходимости -->
+        <button class="btn btn-light" @click="fetchEvents">Apply Filters</button>
+        <button class="btn btn-light" @click="resetFilters">Clear Filters</button>
+    </div>
+
     <div class="d-grid gap-2">
         <button v-if="user && user.role==='ADMIN'" 
-            class="btn btn-primary btn-block" 
+            class="btn btn-success" 
             type="submit"
             mode="add"
             @click="handleClick"
@@ -22,7 +30,7 @@
             <p class="card-text">Time: {{ formatDate(event.startTime) }}</p>
             <p class="card-text">Duration: {{ event.duration }}</p>
 
-            <router-link :to="'/events/' + event.eid" >Details</router-link>
+            <router-link :to="'/events/' + event.eid" class="details-link">Details</router-link>
 
             <button 
                 v-if="user" 
@@ -74,6 +82,12 @@
             @submit-success="handleSubmitSuccess" 
     />
 
+    <div class="pagination">
+        <button class="btn btn-light" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Назад</button>
+        <span>Страница {{ currentPage }} из {{ totalPages }}</span>
+        <button class="btn btn-light" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">Вперед</button>
+    </div>
+
 </template>
 
 <script>
@@ -105,6 +119,12 @@
                 showEditModal: false,
                 selectedEvent: null,
                 showConfirmationModal: false,
+                filters: {
+                    name: '',
+                    date: ''
+                },
+                currentPage: 1,
+                totalPages: 0,
             };
         },
 
@@ -120,17 +140,27 @@
             async fetchEvents() {
                 try {
                     const [eventsResponse, registrationResponse] = await Promise.all([
-                        axios.get('events'),
+                        axios.get(`events?page=${this.currentPage - 1}&size=1`, { params: this.filters }),
                         axios.get(`registrations/user/${this.user.id}/events`)
                     ]);
-                    this.events = eventsResponse.data;
+
+                    this.events = eventsResponse.data.content;
                     this.registeredEvents = {};
                     registrationResponse.data.forEach(event => {
                         this.registeredEvents[event.eid] = true;
                     });
+
+                    this.totalPages = eventsResponse.data.totalPages; // Общее количество страниц
+                    this.currentPage = eventsResponse.data.number + 1; // Текущая страница (номер страницы начинается с 0, поэтому прибавляем 1)
+
                 } catch (error) {
                     console.error('Ошибка при получении данных:', error);
                 }
+            },
+
+            changePage(page) {
+                this.currentPage = page;
+                this.fetchEvents();
             },
 
             handleClick() {
@@ -189,6 +219,13 @@
             closeConfirmationModal() {
                 this.showConfirmationModal = false;
             },
+            resetFilters() {
+                this.filters = {
+                    name: '',
+                    date: ''
+                };
+                this.fetchEvents(); // Перезагрузить список мероприятий с сброшенными фильтрами
+            },
 
 
         }
@@ -227,23 +264,47 @@
     overflow: hidden;
     outline: 0;
     background-color: rgba(0,0,0,0.5);
-}
-.modal-dialog {
-    position: relative;
-    margin: 10% auto;
-    max-width: 500px;
-}
+    }
+    .modal-dialog {
+        position: relative;
+        margin: 10% auto;
+        max-width: 500px;
+    }
 
-.modal-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    pointer-events: auto;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.2);
-    border-radius: 0.3rem;
-    outline: 0;
-}
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: 0.3rem;
+        outline: 0;
+    }
+
+    .details-link {
+        color: #333; /* Задаем красный цвет текста */
+        text-decoration: none; /* Убираем подчеркивание */
+        font-weight: bold; /* Делаем текст жирным */
+        transition: color 0.3s ease; /* Добавляем плавность изменения цвета */
+    }
+
+    .details-link:hover {
+        color: darkred; /* Цвет при наведении */
+        text-decoration: underline; /* Подчеркивание при наведении */
+    }
+
+    .pagination {
+        display: flex; /* Включаем Flexbox */
+        align-items: center; /* Вертикальное выравнивание элементов внутри контейнера */
+        justify-content: center; /* Горизонтальное выравнивание элементов */
+        gap: 10px; /* Расстояние между элементами */
+    }
+
+    .page-info {
+        margin: 0 15px; /* Добавляем отступы по бокам для текста */
+    }
+
 </style>
