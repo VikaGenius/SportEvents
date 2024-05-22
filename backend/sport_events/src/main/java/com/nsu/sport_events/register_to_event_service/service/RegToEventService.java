@@ -10,6 +10,7 @@ import com.nsu.sport_events.events_service.repository.EventRepository;
 import com.nsu.sport_events.register_to_event_service.DTO.RegistrationToEventDTO;
 import com.nsu.sport_events.register_to_event_service.model.RegistrationToEvent;
 import com.nsu.sport_events.register_to_event_service.repository.RegToEventRepo;
+import com.nsu.sport_events.smtp_service.service.EmailService;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class RegToEventService {
 
     @Autowired
     EventRepository eventRepository;
+
+    @Autowired
+    EmailService emailService;
 
     public List<RegistrationToEvent> getApplicationsToEvent() {
         return registrationRepository.findApplicationsToEvents();
@@ -44,10 +48,19 @@ public class RegToEventService {
     public void addApplication(RegistrationToEventDTO dto) {
         RegistrationToEvent application = new RegistrationToEvent();
 
-        application.setUser(userRepository.findById(dto.getUser()).get());
-        application.setEvent(eventRepository.findById(dto.getEvent()).get());
+        User user = userRepository.findById(dto.getUser()).get();
+        Event event = eventRepository.findById(dto.getEvent()).get();
+
+        application.setUser(user);
+        application.setEvent(event);
 
         registrationRepository.save(application);
+        
+        String to = user.getEmail();
+        String subject = "Обработка заявки";
+        String text = "Доброго времени суток! Ваша заявка на мероприятие " + event.getName() + " передана на рассмотрение администраторам";
+
+        emailService.sendSimpleMessage(to, subject, text);
 
         //TODO: добавить функционал с отправлением сообщения на почту о том, 
         //что заявка на мероприятие отправлена
@@ -58,9 +71,14 @@ public class RegToEventService {
 
         if (record != null) {
             Event event = record.getEvent();
+            User user = record.getUser();
+
             Integer remainingSeats = event.getRemainingSeats();
             if (remainingSeats == 0) {
-                //отправить сообщение о том, что мест нет
+                String to = user.getEmail();
+                String subject = "Регистрация не прошла";
+                String text = "Доброго времени суток! К сожалению, места на мероприятие " + event.getName() + " закончились :(";
+                emailService.sendSimpleMessage(to, subject, text);
 
                 registrationRepository.deleteById(id);
                 return;
@@ -69,7 +87,13 @@ public class RegToEventService {
             record.setConfirmed(true);
             registrationRepository.save(record);
             event.setRemainingSeats(remainingSeats - 1);
-            //отправить сообщение о том, что запись прошла успешно
+            eventRepository.save(event);
+
+            
+            String to = user.getEmail();
+            String subject = "Успешная регистрация";
+            String text = "Доброго времени суток! Вы зарегистрированы на мероприятие " + event.getName() + " :)";
+            emailService.sendSimpleMessage(to, subject, text);
         }
     }
 
